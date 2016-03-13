@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+        <!-- <script src="phonegap.js"></script> -->
+        <!--<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">-->
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Baseball Words</title>
+    </head>
+    <body>
+        <!-- Start Markup for Level Selection Screen -->
+        <!-- <div ng-show="state.levelSelectControl" ng-controller="levelSelectControl" class="main levelSelect" ng-init="selectLevel()">
+            <h1 ng-click="selectLevel()">{{message}}</h1>
+            <ul class="landings">
+                <li ng-repeat="level in levels" ng-click='selectLevel(level)' class="flower {{level.flowerClass}}">
+                    <span class="levelName">{{level.name}}</span>
+                </li>
+            </ul>
+            <div class="clouds"></div>
+
+        
+        </div> -->
+        <!-- End Markup for Level Selection Screen -->
+        <!-- Start Markup for Level Screen -->
+        <div class="mainshell">
+            <div class="main">
+                <!-- BusyBee -->
+                <div id="character">
+                </div>
+             	<div id="characterMinor">
+                </div>
+                <div class="gamearea">
+                	<div class="letterBoundary">
+                		<div class="letters">3</div>
+                    </div>
+                    <div class="landingZone" id="landingZone"> </div>
+                    
+                </div>
+                <div class="answerWrapper">
+                    <ul class="answerarea">
+                    	
+                    </ul>
+                </div>
+                <!-- <div class="clouds"></div> -->
+                <div class="collectAnswerPanel">
+                    <div class="incorrectPanel">
+                        <span class="answerText"> Foul ball! <br>
+                        	<div id="collectedAnswer"></div> is not one of the letters in the word <div class="introMsg"> </div>
+                        </span>
+                        <audio id="wrongAnswerSound"></audio>
+                    </div>
+                </div>
+
+                <div class="introPanel">
+                    <audio id="introSound"></audio>
+                    <div class="answerText">Hit the letters in the word: <br> 
+                    	<div class="introMsg"> </div>
+                    </div>
+                    <div class="clouds"></div>
+                </div>
+                <div class="successPanel">
+                    <div class="answerText">You did it!</div>
+                    <div class="clouds"></div>
+                    <div class="successCharacter">
+                        <div class="successMove successMove2"></div><div class="successMove successMove2"></div><div class="successMove successMove1"></div><div class="successMove successMove2"></div>
+                    </div>
+                    <audio id="successSound"></audio>
+                </div>
+            </div>
+        </div>
+        <!-- End Markup for Level Screen -->
+
+        </div>
+        <!-- <script type="text/javascript" src="cordova.js"></script> -->
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <!-- <script type="text/javascript" src="js/angular.min.js"></script> -->
+        <!-- <script type="text/javascript" src="js/ng-cordova.js"></script> -->
+        <!-- <script type="text/javascript" src="js/index.js"></script> -->
+        <script type="text/javascript" src="js/BaseballWordsApp.js"></script>
+    </body>
+</html>

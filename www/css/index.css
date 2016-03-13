@@ -1,0 +1,283 @@
+* { outline: none !important; }
+/* fix to landscape mode only
+max width and height?
+*/
+@font-face {
+  font-family: titleFont;
+  src: url(../fonts/ComicRelief.ttf);
+}
+@font-face {
+  font-family: titleFontBold;
+  src: url(../fonts/ComicRelief.ttf);
+  font-weight: bold;
+}
+
+.mainshell, .app, body{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-y: hidden;
+  font-family: titleFont;
+  /*opacity: 0.1;*/
+}
+.main{
+  width: 100%;
+  overflow: hidden;
+  background: #219efe;
+  background: url('../imgs/field.png') bottom center  no-repeat;
+  padding:0;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow-y: hidden;
+}
+.main h1 {
+  position: absolute;
+}
+/* end opening screen   */
+
+#character{
+  background: url('../imgs/players-sprite.png') right center no-repeat;
+  width: 162px;
+  height: 350px;
+  z-index: 95;
+  position: absolute;
+  left: 60%;
+  bottom: 0;
+
+ /* -webkit-animation: fly .8s steps(3) infinite;
+  animation: fly .8s steps(3) infinite;*/
+  /*90 x 120*/
+}
+#characterMinor{
+  background: url('../imgs/players-sprite.png') left center no-repeat;
+    width: 70px;
+    height: 170px;
+    z-index: 95;
+    position: absolute;
+    left: 45%;
+    top: 30%;
+    }
+/*@-webkit-keyframes fly {
+  100% { background-position: -534px; }
+}
+@keyframes fly {
+  100% { background-position: -534px; }
+}*/
+/*#character.faceLeft {
+  transform: rotate(180deg);
+}*/
+.gamearea{
+  width:100%;
+  height:100%;
+  z-index: 40;
+}
+.letterBoundary {
+  /*transition: top .3s, left .5s;*/  /*todo: add easing */
+  position: absolute;
+  left: 40%;
+  top: 30%;
+  z-index: 100;
+  padding: 0px 25px;
+  height: 75px;
+  display: block;
+  background: url("../imgs/baseball.png")center center no-repeat;
+  background-size: 20%;
+  /*border: red solid 1px;*/
+}
+.letters{
+  font-family: titleFontBold;
+  font-size: 2.7em;
+  z-index: 5;
+  zoom: 1.25;
+  text-align: center;
+  opacity: 0.1;
+  line-height: 1.15em;
+}
+
+.landingZone{
+  /*position: relative;*/
+  display: inline-block; 
+  width:100px;
+  height: 100px;
+  position: absolute;
+  left: 45%;
+  top: 45%;
+  z-index: 100;
+  margin: 0;
+  padding: 0;
+  border: solid red 1px;
+  overflow: scroll;
+}
+
+.answerWrapper{
+  position: fixed;
+  z-index: 10;
+  top: 5px;
+  left: 33%;
+  height: 25%; /*120px;*/
+  width: 40%; /*230px;*/
+  background: #000;
+}
+
+.answerarea{
+  color: #000;
+  text-shadow: -2px 0 #f9ea02, 0 2px #f9ea02, 2px 0 #f9ea02, 0 -2px #f9ea02;
+  position:absolute;
+  width: 100%;
+  font-size: 60px;
+  text-align: center;
+  letter-spacing: 15px;
+  margin: auto 0;
+  padding: 0;
+}
+
+.correctLetter{
+  color: #f9ea02;
+  text-shadow: -1px 0 yellow, 0 1px yellow, 1px 0 yellow, 0 -1px yellow;
+}
+
+/* Answer Collect Panel Styles */
+.collectAnswerPanel, .introPanel, .successPanel {
+  position: fixed;
+  top: 0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index: 100;
+  /*display: table;*/
+  -webkit-backface-visibility: hidden;
+}
+.collectAnswerPanel {
+  background-color: rgba(80,71,29,.9);
+}
+.introPanel {
+  padding: 10% ;
+}
+.introMsg{
+  font-size: 2.5em;
+}
+.successPanel{
+  background-color: rgba(33,158,254,1);
+  text-align: center;
+}
+
+.incorrectPanel{
+  position:absolute;
+  padding: 10%;
+  width:100%;
+  height:100%;
+}
+
+.successCharacter{
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+.successMove {
+  display:inline-block;
+  background: url("../imgs/flowers-sprite.png");
+  background-position: 0px 0px, left top;
+  background-repeat: no-repeat;
+  z-index: 20;
+  height: 400px;
+  width: 220px;
+  zoom:0.5;
+  -moz-transform:scale(0.55);
+  -moz-transform-origin: 0 0;
+}
+.successMove1{
+  -webkit-animation: successdance 1s steps(4) infinite;
+  animation: successdance 1s steps(4) infinite;
+}
+
+.successMove2{
+  -webkit-animation: successdance2 1s steps(3) infinite;
+  animation: successdance2 1s steps(3) infinite;
+}
+/* The animation code x y coordinates */
+
+@-webkit-keyframes successdance {
+  100% { background-position: -869px; }
+  /* sprites total width */
+}
+@-webkit-keyframes successdance2 {
+  0% {
+    transform: rotate(-10deg);
+    background-position: 0px 0;
+  }
+  50% {
+    transform: rotate(4deg);
+    background-position: 0px 0;
+  }
+  100% {
+    transform: rotate(-8deg);
+    /*background-position: -440px 0;*/
+  }
+}
+.collectAnswerPanel .letters{
+  display: inline-block;
+  float: left;
+  /*width: 24%;  /!*20%*!/*/
+  position: relative;
+  zoom: 1.5;
+}
+.collectAnswerPanel .answerText, .introPanel .answerText, .loadingApp .answerText, .successPanel .answerText {
+  display: inline-block;
+  position: relative;
+  z-index: 100;
+  width: 54%;
+  font-size: 2em;
+  font-family: titleFontBold;
+  color: #f9d00e;
+  height: 130px;
+  text-shadow:  -1px -1px 0 #000,
+  2px -1px 0 #000,
+  -1px 2px 0 #000,
+  2px 2px 0 #000;
+}
+.introPanel .answerText {
+  width: 68%;
+  padding-top: 10%;
+}
+.introPanel, .loadingApp {
+  background: #219efe;
+}
+.successPanel .answerText {
+  padding-top: 10%
+}
+.loadingApp h1{
+  font-size: 62px;
+  margin:0;
+}
+.loadingApp .loadingAppPanel .answerText{
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding-top: 70px;
+  text-align: center;
+  font-size: 48px;
+  z-index: 100;
+}
+.subText {
+  color: #f9d00e;
+  font-size: 20px;
+}
+}
+.introPanel .answerText {
+  width: 80%;
+  z-index: 50;
+  padding-top: 100px;
+  /*text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;*/
+  font-size: 34px;
+}
+.answerarea li{
+  display:inline-block;
+}
+
+.answerarea li .letters{
+  position: relative;
+  float: left;
+  /*width: 64px;*/
+}
