@@ -1,10 +1,67 @@
 
 $(document).ready(function(){
   $(".collectAnswerPanel").hide();
+  $(".successPanel").hide();
   //showIntroPanel = true;
 
-  var answerArr = [ "c", "a", "n" ];
-  var wrongAnswerArr = [ "d", "o", "g" ];
+  var newLevels = [
+    {
+      "name": "level1",
+      "challenges": [
+        {
+          "word": "c, a, n",
+          "wrong": "d,i,v",
+          "slug": "can",
+          "sound": "sound/uppercase-vowels.mp3",
+          "passes": 0
+        },
+        {
+          "word": "b,y",
+          "wrong": "d,v",
+          "slug": "by",
+          "sound": "sound/uppercase-vowels.mp3",
+          "passes": 0
+        },
+        {
+          "word": "a, n, d",
+          "wrong": "d,i,v",
+          "slug": "and",
+          "sound": "sound/uppercase-vowels.mp3",
+          
+          "passes": 0
+        },
+        {
+          "word": "t,h,e",
+          "wrong": "d,i,v",
+          "slug": "the",
+          "sound": "sound/uppercase-vowels.mp3",
+          "passes": 0
+        }
+      ]
+    }, 
+    {
+      "name": "level2",
+      "challenges": [
+        {
+          "word": "t, h, i, s",
+          "wrong": "d,a,v",
+          "slug": "this",
+          "sound": "sound/uppercase-vowels.mp3",
+          "passes": 0
+        },
+        {
+          "word": "b, a, l, l",
+          "wrong": "d,i,v",
+          "slug": "can",
+          "sound": "sound/uppercase-vowels.mp3",
+          "passes": 0
+        }
+      ]
+    },
+  ];
+
+  var answerArr = [ "g", "r","a","c", "e" ];
+  var wrongAnswerArr = [ "t", "i", "z" ];
 
   // combined possibles in new array
   var allAnswers = [ ];
@@ -52,8 +109,8 @@ $(document).ready(function(){
       nextLetterUp=0;
       console.log(" nextup letter:: "+answerArr[nextLetterUp]);
     };
-    // array that combines wrong answers with next correct answer (twice) - to increase odds of it showing up
-    allAnswers = wrongAnswerArr.concat(answerArr[nextLetterUp], answerArr[nextLetterUp] );
+    // array that combines wrong answers with next correct answer (thrice) - to increase odds of it showing up
+    allAnswers = wrongAnswerArr.concat(answerArr[nextLetterUp], answerArr[nextLetterUp], answerArr[nextLetterUp] );
     // choose item to display randomly from array
     tappedItem = allAnswers[Math.floor(Math.random() * allAnswers.length)];
     
@@ -88,7 +145,7 @@ $(document).ready(function(){
 
       if(jQuery.inArray(tappedItem, answerArr) !== -1){
           //console.log( "tappedItem "+tappedItem+" in array "+answerArr);      
-          //console.log("answer array length "+answerArr.length+"/attmept arr "+attemptArr.length)
+          console.log("answer array length "+answerArr.length+"/attmept arr "+attemptArr.length)
           sucess();
       }
       else{
@@ -127,7 +184,7 @@ $(document).ready(function(){
     });
     $(".letters").stop().animate({opacity: '0.1'}, 200);
 
-    console.log( "success  tappedItem: "+tappedItem+" answer array "+answerArr+" attemptArr length: "+j);
+    console.log( "success  tappedItem: "+tappedItem+" answer array "+answerArr);
 
     // check if problem is solved after certain time to make sure things have happened
     setTimeout(function(){
