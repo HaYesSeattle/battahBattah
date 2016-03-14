@@ -9,33 +9,44 @@ $(document).ready(function(){
       "name": "level1",
       "challenges": [
         {
-          "word": "c, a, n",
-          "wrong": "d,i,v",
-          "slug": "can",
-          "sound": "sound/uppercase-vowels.mp3",
-          "passes": 0
+          "word": ["can"],
+          "wrong": ["zom"],
+          "sound": "sound/UgotIt.mp3"
         },
         {
-          "word": "b,y",
-          "wrong": "d,v",
-          "slug": "by",
-          "sound": "sound/uppercase-vowels.mp3",
-          "passes": 0
+          "word": ["by"],
+          "wrong": ["dv"],
+          "sound": "sound/UgotIt.mp3"
         },
         {
-          "word": "a, n, d",
-          "wrong": "d,i,v",
-          "slug": "and",
-          "sound": "sound/uppercase-vowels.mp3",
-          
-          "passes": 0
+          "word": ["this"],
+          "wrong": ["zen"],
+          "sound": "sound/UgotIt.mp3"
         },
         {
-          "word": "t,h,e",
-          "wrong": "d,i,v",
-          "slug": "the",
-          "sound": "sound/uppercase-vowels.mp3",
-          "passes": 0
+          "word": ["you"],
+          "wrong": ["zaw"],
+          "sound": "sound/UgotIt.mp3"
+        },
+        {
+          "word": ["see"],
+          "wrong": ["fry"],
+          "sound": "sound/UgotIt.mp3"
+        },
+        {
+          "word": ["for"],
+          "wrong": ["aed"],
+          "sound": "sound/UgotIt.mp3"
+        },
+        {
+          "word": ["the"],
+          "wrong": ["zn3"],
+          "sound": "sound/UgotIt.mp3"
+        },
+        {
+          "word": ["and"],
+          "wrong": ["mbo"],
+          "sound": "sound/UgotIt.mp3"
         }
       ]
     }, 
@@ -43,18 +54,34 @@ $(document).ready(function(){
       "name": "level2",
       "challenges": [
         {
-          "word": "t, h, i, s",
-          "wrong": "d,a,v",
-          "slug": "this",
-          "sound": "sound/uppercase-vowels.mp3",
-          "passes": 0
+          "word": ["is"],
+          "wrong": ["by"],
+          "sound": "sound/can.mp3"
         },
         {
-          "word": "b, a, l, l",
-          "wrong": "d,i,v",
-          "slug": "can",
-          "sound": "sound/uppercase-vowels.mp3",
-          "passes": 0
+          "word": ["have"],
+          "wrong": ["nwd"],
+          "sound": "sound/can.mp3"
+        },
+        {
+          "word": ["with"],
+          "wrong": ["rjn"],
+          "sound": "sound/can.mp3"
+        },
+        {
+          "word": ["on"],
+          "wrong": ["am"],
+          "sound": "sound/can.mp3"
+        },
+        {
+          "word": ["like"],
+          "wrong": ["zqy"],
+          "sound": "sound/can.mp3"
+        },
+        {
+          "word": ["do"],
+          "wrong": ["ba"],
+          "sound": "sound/do.mp3"
         }
       ]
     },
@@ -71,21 +98,33 @@ $(document).ready(function(){
   var tappedItem = "";
   // tracks what letter is next in answer
   var nextLetterUp = 0;
-  
+
+  var solutionMp3 = "";
 
   reloadGame();
   
   console.log(" initial game load:: ");
-
+  
   function reloadGame(){
+    // current object and item
+    var currentLevel = 0;
     
-    answerArr = [ "b","y" ];
-    wrongAnswerArr = [ "t", "z" ];
-    // tracks correct answer
-    console.log(" :::::: RELOAD GAME attemptArr :::::::::::::::: "+attemptArr);
+    var currentChallengeLength = newLevels[currentLevel].challenges.length;
+    var currentChallengeNode = Math.floor(Math.random()*currentChallengeLength);
+    var currentChallenge = newLevels[currentLevel].challenges[currentChallengeNode];
+
+    var randomAnswerArr = [ currentChallenge.word ];
+    answerArr = randomAnswerArr.toString();
+
+    var randomWrongAnswerArr = [ currentChallenge.wrong ];
+    wrongAnswerArr = randomWrongAnswerArr.toString();
+
+    solutionMp3 = [ currentChallenge.sound ];
+    
+    console.log(" :::::: RELOAD GAME  ::::::::::::::: current challenge length: "+currentChallengeLength+" answerArr :"+answerArr);
+
     
     if (attemptArr.length > 0 ){
-      console.log(" RELOAD attemptArr > 0 IF :: "+attemptArr);
       attemptArr = [ ]; 
       $(".introPanel").show(); 
       $("ul.answerarea").empty();
@@ -94,12 +133,11 @@ $(document).ready(function(){
       // answerArr.push( "b","y" );
     }
     else{
-      console.log(" initial load ideally attemptArr > 0 ELSE :: ");
       setUpIntroPanel();
     };
 
     function setUpIntroPanel(){
-       $(".introMsg").text(answerArr.join(""))
+       $(".introMsg").text(answerArr)
       //console.log( "SET UP INTRO PANEL ::: allAnswers "+allAnswers+" answer array "+answerArr+" attemptArr "+attemptArr); 
        
       setTimeout(function(){
@@ -109,14 +147,12 @@ $(document).ready(function(){
     };
 
     function setUpLoad() {
-      console.log(answerArr+" :::::: answer Array list build "+allAnswers+" allAnswers")
-      $.each(answerArr, function(i)
-        {
+      for (var i=0; i < answerArr.length; i++) {
           var li = $('<li/>')
               //.addClass('letterItem'+[i])
               .text(answerArr[i])
               .appendTo('ul.answerarea');
-        });
+        };
       loadTarget();
     };
   };
@@ -164,15 +200,12 @@ $(document).ready(function(){
   
   $( "#character" ).click(function() {
       // run batting animation
-      //console.log( "batter animation happens now" );
+      console.log( "batter animation happens now" );
 
       if(jQuery.inArray(tappedItem, answerArr) !== -1){
-          //console.log( "tappedItem "+tappedItem+" in array "+answerArr);      
-          //console.log("answer array length "+answerArr.length+"/attmept arr "+attemptArr.length)
           sucess();
       }
       else{
-           //console.log( " not in array "+tappedItem+" :: "+answerArr);
            fail();
       };
     });
@@ -186,7 +219,10 @@ $(document).ready(function(){
        $("#collectedAnswer").text(tappedItem);
     });
     $(".letters").stop().animate({opacity: '0.1'}, .05);
-     
+    
+    $('#wrongAnswerSound').attr('src', 'sound/nope-try-again.mp3');
+      document.getElementById('wrongAnswerSound').play();
+      
     /// on click of fail screen hide it and load another
     $( ".collectAnswerPanel" ).click(function() {
       $(".collectAnswerPanel").hide();
@@ -203,11 +239,13 @@ $(document).ready(function(){
       $("ul.answerarea li").eq([j-1]).addClass("correctLetter");
       $(".letterBoundary").hide();
       
-      //return false;
     });
+    $('#successHitSound').attr('src', 'sound/stadiumCheer.mp3');
+      document.getElementById('successHitSound').play();
+
     $(".letters").stop().animate({opacity: '0.1'}, 200);
 
-    console.log( "success  tappedItem: "+tappedItem+" answer array "+answerArr);
+    //console.log( "success  tappedItem: "+tappedItem+" answer array "+answerArr);
 
     // check if problem is solved after certain time to make sure things have happened
     setTimeout(function(){
@@ -225,6 +263,11 @@ $(document).ready(function(){
     answerArr = [ ]; 
     $(".successPanel").show();
     $('.successPanel').off('click');
+    $('#successSound').attr('src', 'sound/fireworks.mp3');
+      document.getElementById('successSound').play();
+    $('#solutionSound').attr('src', solutionMp3);
+      document.getElementById('solutionSound').play();
+     // 
     $( ".successPanel" ).click(function() {
       $(".successPanel").hide();
       reloadGame();
