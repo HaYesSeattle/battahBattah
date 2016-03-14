@@ -60,54 +60,77 @@ $(document).ready(function(){
     },
   ];
 
-  var answerArr = [ "g", "r","a","c", "e" ];
-  var wrongAnswerArr = [ "t", "i", "z" ];
+  var answerArr = [ ];
+  var wrongAnswerArr = [ ];
 
   // combined possibles in new array
   var allAnswers = [ ];
   // tracks correct answer
   var attemptArr = [ ];
   // loads an answer to target
-  var tappedItem ;
+  var tappedItem = "";
   // tracks what letter is next in answer
   var nextLetterUp = 0;
   
-  // this changes original arrays as well :::: 
-  //var allAnswers = $.merge( answerArr, wrongAnswerArr );
+
+  reloadGame();
   
-  //this works but cant push one element of array at a time
-  // allAnswers.push.apply(allAnswers, answerArr);
-  // allAnswers.push.apply(allAnswers, wrongAnswerArr);
+  console.log(" initial game load:: ");
 
-  // array = c, and "d,o,g"
-  // allAnswers.push(wrongAnswerArr);
-  // allAnswers.push(answerArr[0]);
-
-  $(".introMsg").text(answerArr.join(""))
-  console.log( "document loaded ::: allAnswers "+allAnswers); 
+  function reloadGame(){
     
-  setTimeout(function(){
-    $(".introPanel").hide();
-    loadTarget();
-  }, 5000);
+    answerArr = [ "b","y" ];
+    wrongAnswerArr = [ "t", "z" ];
+    // tracks correct answer
+    console.log(" :::::: RELOAD GAME attemptArr :::::::::::::::: "+attemptArr);
+    
+    if (attemptArr.length > 0 ){
+      console.log(" RELOAD attemptArr > 0 IF :: "+attemptArr);
+      attemptArr = [ ]; 
+      $(".introPanel").show(); 
+      $("ul.answerarea").empty();
+      setUpIntroPanel();
+      //$("ul.answerarea li").removeClass("correctLetter");
+      // answerArr.push( "b","y" );
+    }
+    else{
+      console.log(" initial load ideally attemptArr > 0 ELSE :: ");
+      setUpIntroPanel();
+    };
 
-  $.each(answerArr, function(i)
-  {
-      var li = $('<li/>')
-          //.addClass('letterItem'+[i])
-          .text(answerArr[i])
-          .appendTo('ul.answerarea');
-  });
-  
+    function setUpIntroPanel(){
+       $(".introMsg").text(answerArr.join(""))
+      //console.log( "SET UP INTRO PANEL ::: allAnswers "+allAnswers+" answer array "+answerArr+" attemptArr "+attemptArr); 
+       
+      setTimeout(function(){
+        $(".introPanel").hide();
+        setUpLoad();
+      }, 5000);
+    };
+
+    function setUpLoad() {
+      console.log(answerArr+" :::::: answer Array list build "+allAnswers+" allAnswers")
+      $.each(answerArr, function(i)
+        {
+          var li = $('<li/>')
+              //.addClass('letterItem'+[i])
+              .text(answerArr[i])
+              .appendTo('ul.answerarea');
+        });
+      loadTarget();
+    };
+  };
+
+
   // load one of the letters to the target
   function loadTarget(){
     // makes sure the first letter is not undefined and then changes nextLetterUp to the next letter in answer
-    if (attemptArr.length !== 0){
+    if (attemptArr.length > 0){
       nextLetterUp = attemptArr.length;
-      console.log(" nextup letter:: "+answerArr[nextLetterUp]);
+      //console.log(" nextup letter if attemptArr length greater than 0:: "+attemptArr);
     }else{
       nextLetterUp=0;
-      console.log(" nextup letter:: "+answerArr[nextLetterUp]);
+      //console.log(" nextup letter else attemptArr length (not) greater than 0:: "+attemptArr);
     };
     // array that combines wrong answers with next correct answer (thrice) - to increase odds of it showing up
     allAnswers = wrongAnswerArr.concat(answerArr[nextLetterUp], answerArr[nextLetterUp], answerArr[nextLetterUp] );
@@ -120,7 +143,7 @@ $(document).ready(function(){
     $('.letters').css({'opacity': '0'});
     $('.letters').text(tappedItem);
     
-    console.log( "LOAD TARGET ::: new letter loaded "+tappedItem+" allAnswers Array:"+allAnswers ); 
+    //console.log( "LOAD TARGET ::: new letter loaded "+tappedItem+" allAnswers Array:"+allAnswers ); 
     
     pitchBall();
   };
@@ -136,16 +159,16 @@ $(document).ready(function(){
       });
       $(".letters").animate({opacity: '1'}, 100);
     }, 3000);
-    console.log( "pitchBall function after timer :: tappedItem "+tappedItem);
+    //console.log( "pitchBall function after timer :: tappedItem "+tappedItem);
   };
   
   $( "#character" ).click(function() {
       // run batting animation
-      console.log( "batter animation happens now" );
+      //console.log( "batter animation happens now" );
 
       if(jQuery.inArray(tappedItem, answerArr) !== -1){
           //console.log( "tappedItem "+tappedItem+" in array "+answerArr);      
-          console.log("answer array length "+answerArr.length+"/attmept arr "+attemptArr.length)
+          //console.log("answer array length "+answerArr.length+"/attmept arr "+attemptArr.length)
           sucess();
       }
       else{
@@ -192,25 +215,21 @@ $(document).ready(function(){
         finale();
       }
       else{  
-        //console.log("else loadTarget")
+        //console.log("success - answer array = attempt array length -- else --- loadTarget")
         loadTarget();
       };
     }, 500);
   };
 
-  // function stopAnimation() {
-  //     $(".letterBoundary").stop();
-  //     $(".letters").stop();
-  //   };
-
-  // function removeLetter() {
-  //   // remove letter from possible answers array
-  //   allAnswers.splice($.inArray(tappedItem, allAnswers),1);
-  //   //console.log('remove letter - new array:'+allAnswers);
-  // };
-
   function finale(){
+    answerArr = [ ]; 
     $(".successPanel").show();
-    // console.log('finale');   
+    $('.successPanel').off('click');
+    $( ".successPanel" ).click(function() {
+      $(".successPanel").hide();
+      reloadGame();
+      console.log('reload game in finale :::::::::::::::'+" answer array "+answerArr+" attemptArr"+attemptArr); 
+    }); 
+    console.log('finale');   
   };
 });
