@@ -44,6 +44,16 @@ $(document).ready(function(){
           "sound": "sound/UgotIt.mp3"
         },
         {
+          "word": ["from"],
+          "wrong": ["zn3"],
+          "sound": "sound/UgotIt.mp3"
+        },
+        {
+          "word": ["on"],
+          "wrong": ["zn3"],
+          "sound": "sound/UgotIt.mp3"
+        },
+        {
           "word": ["and"],
           "wrong": ["mbo"],
           "sound": "sound/UgotIt.mp3"
@@ -137,9 +147,10 @@ $(document).ready(function(){
     };
 
     function setUpIntroPanel(){
-       $(".introMsg").text(answerArr)
+      $(".introMsg").text(answerArr)
       //console.log( "SET UP INTRO PANEL ::: allAnswers "+allAnswers+" answer array "+answerArr+" attemptArr "+attemptArr); 
-       
+      $("#characterMinor").show();
+      $("#character").show();
       setTimeout(function(){
         $(".introPanel").hide();
         setUpLoad();
@@ -172,10 +183,11 @@ $(document).ready(function(){
     allAnswers = wrongAnswerArr.concat(answerArr[nextLetterUp], answerArr[nextLetterUp], answerArr[nextLetterUp] );
     // choose item to display randomly from array
     tappedItem = allAnswers[Math.floor(Math.random() * allAnswers.length)];
+    $("#characterMinor").removeClass("characterMinorMove");
     
     // set starting points for pitch
     $(".letterBoundary").stop().show();
-    $(".letterBoundary").stop().css({ 'left': '40%','top':'30%', "background-size":"20%", 'opacity': '1' });
+    $(".letterBoundary").stop().css({ 'left': '35%','top':'40%', "background-size":"10%", 'opacity': '0.1' });
     $('.letters').css({'opacity': '0'});
     $('.letters').text(tappedItem);
     
@@ -185,22 +197,30 @@ $(document).ready(function(){
   };
  
   function pitchBall(){
+    
+   setTimeout(function(){
+      $("#characterMinor").addClass("characterMinorMove");
+      // reset batter
+      $("#character").removeClass("characterMove");
+    }, 1000);
     setTimeout(function(){
-      $(".letterBoundary").animate({ 'left': '50%','top':'50%', "background-size":"100%" }, 2500, function(){
+      $(".letterBoundary").animate({ 'left': '50%','top':'50%', "background-size":"100%", 'opacity': '1' }, 2500, function(){
         // after the animation hide ball....
          $(".letterBoundary").animate({ 'opacity': '0.1','top':'110%' }, 500, function(){
             // after the animation....
             loadTarget();
           });
       });
+
       $(".letters").animate({opacity: '1'}, 100);
-    }, 3000);
+    }, 1500);
     //console.log( "pitchBall function after timer :: tappedItem "+tappedItem);
   };
   
   $( "#character" ).click(function() {
       // run batting animation
       console.log( "batter animation happens now" );
+      $("#character").addClass("characterMove");
 
       if(jQuery.inArray(tappedItem, answerArr) !== -1){
           sucess();
@@ -213,16 +233,19 @@ $(document).ready(function(){
 
   function fail(){
     //console.log('fail - new array:'); 
-    $(".letterBoundary").stop().animate({top: '10%', left: "-20%","background-size":"20%"}, 500, function(){
-      // show fail screen with current letter
-       $(".collectAnswerPanel").show();
-       $("#collectedAnswer").text(tappedItem);
-    });
-    $(".letters").stop().animate({opacity: '0.1'}, .05);
+    // wait for batter to swing
+    setTimeout(function(){
+      $(".letterBoundary").stop().animate({top: '10%', left: "-20%","background-size":"20%"}, 500, function(){
+        // show fail screen with current letter
+        $(".collectAnswerPanel").show();
+        $("#collectedAnswer").text(tappedItem);
+      });
+     
+      $(".letters").stop().animate({opacity: '0.1'}, .05);
     
-    $('#wrongAnswerSound').attr('src', 'sound/nope-try-again.mp3');
-      document.getElementById('wrongAnswerSound').play();
-      
+      $('#wrongAnswerSound').attr('src', 'sound/nope-try-again.mp3');
+        document.getElementById('wrongAnswerSound').play();
+    }, 100);   
     /// on click of fail screen hide it and load another
     $( ".collectAnswerPanel" ).click(function() {
       $(".collectAnswerPanel").hide();
@@ -234,17 +257,20 @@ $(document).ready(function(){
   function sucess(){
     attemptArr.push(tappedItem);
     var j = attemptArr.length;
-  
-    $(".letterBoundary").stop().animate({top: '0', "background-size":"20%"}, 200, function(){
-      $("ul.answerarea li").eq([j-1]).addClass("correctLetter");
-      $(".letterBoundary").hide();
-      
-    });
-    $('#successHitSound').attr('src', 'sound/stadiumCheer.mp3');
-      document.getElementById('successHitSound').play();
 
-    $(".letters").stop().animate({opacity: '0.1'}, 200);
+    // wait for batter to swing
+    setTimeout(function(){  
+      $(".letterBoundary").stop().animate({top: '0', "background-size":"20%"}, 200, function(){
+        $("ul.answerarea li").eq([j-1]).addClass("correctLetter");
+        $(".letterBoundary").hide();
+        
+      });
+      $('#successHitSound').attr('src', 'sound/stadiumCheer.mp3');
+        document.getElementById('successHitSound').play();
 
+      $(".letters").stop().animate({opacity: '0.1'}, 200);
+
+    }, 100);
     //console.log( "success  tappedItem: "+tappedItem+" answer array "+answerArr);
 
     // check if problem is solved after certain time to make sure things have happened
@@ -256,11 +282,16 @@ $(document).ready(function(){
         //console.log("success - answer array = attempt array length -- else --- loadTarget")
         loadTarget();
       };
-    }, 500);
+    }, 800);
   };
 
   function finale(){
     answerArr = [ ]; 
+
+    // hide batter and pitcher
+    $("#characterMinor").hide();
+    $("#character").hide();
+
     $(".successPanel").show();
     $('.successPanel').off('click');
     $('#successSound').attr('src', 'sound/fireworks.mp3');

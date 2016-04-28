@@ -27,13 +27,15 @@
         <!-- Start Markup for Level Screen -->
         <div class="mainshell">
             <div class="main">
-                <!-- BusyBee -->
+               
                 <div id="character">
                 </div>
              	<div id="characterMinor">
                 </div>
+                <!-- <div id="characterMinorMove">
+                </div> -->
                 <div class="gamearea">
-                	<div class="letterBoundary">
+                	<div class="letterBoundary" id="letter">
                 		<div class="letters">3</div>
                     </div>
                     <div class="landingZone" id="landingZone"> </div>
@@ -62,7 +64,10 @@
                     <div class="clouds"></div>
                 </div>
                 <div class="successPanel">
-                    <div class="answerText">You did it!</div>
+                	 <div class="successCharacter celebration"></div>
+                	 <div class="successCharacter celebrationDelay"></div>
+                    <!-- <div class="answerText">You did it!</div> -->
+                    <div id="characterMinor"> </div>
                     <audio id="solutionSound"></audio>
                     <audio id="successHitSound"></audio>
                     <audio id="successSound"></audio>
